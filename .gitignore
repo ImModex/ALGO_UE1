@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+# Stock files
+*.csv
+
+# Clion files
+*.txt
+cmake*
+.idea
