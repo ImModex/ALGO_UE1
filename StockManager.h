@@ -8,10 +8,13 @@
 class StockManager {
 public:
     StockManager();
-    void fromFile(std::string &filename);
+    void add(std::string name, std::string shortname, std::string WKN);
+    Stock* get(std::string key);
+    void import(std::string filename);
 private:
     HashTable nameTable;
     HashTable shortTable;
+    Stock importBuffer;
 };
 
 

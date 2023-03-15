@@ -1,6 +1,8 @@
 #include <iostream>
 #include "Stock.h"
 
+Stock::Stock() : Stock("", "", "") {}
+
 Stock::Stock(std::string name, std::string shortname, std::string WKN) {
     this->name = std::move(name);
     this->shortname = std::move(shortname);
@@ -28,4 +30,18 @@ std::ostream &operator<<(std::ostream &os, const Stock &stock) {
         os << stock.entries.at(i) << std::endl;
     }
     return os;
+}
+
+void Stock::setData(std::string name, std::string shortname, std::string WKN) {
+    this->name = name;
+    this->shortname = shortname;
+    this->WKN = WKN;
+}
+
+const std::string &Stock::getName() const {
+    return name;
+}
+
+const std::string &Stock::getShortname() const {
+    return shortname;
 }

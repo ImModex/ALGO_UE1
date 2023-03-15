@@ -11,8 +11,13 @@
 
 class Stock {
 public:
+    Stock();
     Stock(std::string name, std::string shortname, std::string WKN);
 
+    const std::string &getName() const;
+    const std::string &getShortname() const;
+
+    void setData(std::string name, std::string shortname, std::string WKN);
     void fromFile(std::ifstream &fs);
 
     friend std::ostream &operator<<(std::ostream &os, const Stock &stock);

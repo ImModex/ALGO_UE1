@@ -2,15 +2,13 @@
 #include "StockManager.h"
 #include "Stock.h"
 
-#include <fstream>
 int main() {
+    StockManager manager;
 
-    std::ifstream str;
-    str.open("F:\\keep\\Zeug\\Schule\\FH\\2. Semester\\ALGO\\UE1\\MSFT.csv", std::ifstream::in);
-    Stock msft("Microsoft", "MSFT", "123456");
-    msft.fromFile(str);
+    manager.import("MSFT.csv");
+    manager.add("Microsoft", "MSFT", "123456");
 
-    std::cout << msft << std::endl;
+    std::cout << *manager.get("Microsoft") << std::endl;
 
     return 0;
 }
