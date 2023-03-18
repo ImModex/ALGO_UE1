@@ -13,9 +13,9 @@ int main() {
     manager.add("Bitcoin", "BTC", "654321");
      */
 
-    manager.load();
-    std::cout << *manager.get("Microsoft") << std::endl;
-    std::cout << *manager.get("BTC") << std::endl;
+   // manager.load();
+   // std::cout << *manager.get("Microsoft") << std::endl;
+   // std::cout << *manager.get("BTC") << std::endl;
 
    //manager.save();
     return 0;

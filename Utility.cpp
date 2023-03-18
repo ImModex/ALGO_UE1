@@ -16,3 +16,12 @@ std::vector<std::string> Utility::split(std::string string, std::string delim) {
     entries.push_back(string.substr(start));
     return entries;
 }
+
+std::string Utility::getInput(std::string prompt) {
+    std::cout << prompt << std::endl;
+
+    std::string input;
+    std::cin >> input;
+
+    return input;
+}

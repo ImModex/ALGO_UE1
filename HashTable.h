@@ -14,8 +14,11 @@ public:
     Stock *search(std::string key);
     void save(std::string filename);
     void load(std::string filename);
-private:
     int hash(std::string key);
+
+    bool isEmpty(int index);
+    Stock* getStockAt(int index);
+private:
     Stock *table;
 };
 
