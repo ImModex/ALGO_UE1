@@ -1,3 +1,4 @@
+#include <iostream>
 #include "StockEntry.h"
 
 StockEntry::StockEntry(std::string line) {
@@ -16,4 +17,8 @@ std::ostream &operator<<(std::ostream &os, const StockEntry &entry) {
     os << "date: " << entry.date << " open: " << entry.open << " high: " << entry.high << " low: " << entry.low
        << " close: " << entry.close << " volume: " << entry.volume << " adjClose: " << entry.adjClose;
     return os;
+}
+
+void StockEntry::printToFile(std::ofstream &file) {
+    file << this->date << "," << this->open << "," << this->high << "," << this->low << "," << this->close << "," << this->adjClose << "," << this->volume;
 }

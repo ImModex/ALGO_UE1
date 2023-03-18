@@ -13,6 +13,8 @@ void StockManager::import(std::string filename) {
         return;
     }
 
+    // Ignore "head" of .csv
+    ifstream.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     this->importBuffer = Stock("", "", "");
     this->importBuffer.fromFile(ifstream);
 
@@ -35,4 +37,14 @@ Stock* StockManager::get(std::string key) {
         elem = this->nameTable.search(key);
 
     return elem;
+}
+
+void StockManager::save() {
+    this->nameTable.save("nametable.dat");
+    this->shortTable.save("shorttable.dat");
+}
+
+void StockManager::load() {
+    this->nameTable.load("nametable.dat");
+    this->shortTable.load("shorttable.dat");
 }

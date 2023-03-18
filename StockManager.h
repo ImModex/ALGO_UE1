@@ -4,6 +4,7 @@
 
 #include "HashTable.h"
 #include <string>
+#include <limits>
 
 class StockManager {
 public:
@@ -11,6 +12,8 @@ public:
     void add(std::string name, std::string shortname, std::string WKN);
     Stock* get(std::string key);
     void import(std::string filename);
+    void save();
+    void load();
 private:
     HashTable nameTable;
     HashTable shortTable;

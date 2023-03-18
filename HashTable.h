@@ -11,8 +11,8 @@ public:
     virtual ~HashTable();
     void add(Stock &stock, std::string key);
     Stock *search(std::string key);
-    void save();
-    void load();
+    void save(std::string filename);
+    void load(std::string filename);
 private:
     int hash(std::string key);
     Stock *table;

@@ -19,7 +19,9 @@ public:
 
     void setData(std::string name, std::string shortname, std::string WKN);
     void fromFile(std::ifstream &fs);
+    void fromFile(std::ifstream &fs, int maxLines);
 
+    void printToFile(std::ofstream &file);
     friend std::ostream &operator<<(std::ostream &os, const Stock &stock);
 
 private:

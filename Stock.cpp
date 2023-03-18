@@ -10,16 +10,22 @@ Stock::Stock(std::string name, std::string shortname, std::string WKN) {
 }
 
 void Stock::fromFile(std::ifstream &fs) {
+    fromFile(fs, 30);
+}
+
+void Stock::fromFile(std::ifstream &fs, int maxLines) {
     if(!fs.is_open()) return;
 
+    int lineCount = 0;
     std::vector<std::string> lines;
     std::string buf;
-    while(std::getline(fs, buf)) {
+    while(lineCount++ < maxLines && std::getline(fs, buf)) {
         lines.push_back(buf);
     }
     std::reverse(lines.begin(), lines.end());
-    for(int i = 0; i < 30; i++) {
-        this->entries.emplace_back(lines.at(i));
+
+    for(int i = 0; i < maxLines; i++) {
+        this->entries.emplace_back(StockEntry(lines.at(i)));
     }
     std::reverse(this->entries.begin(), this->entries.end());
 }
@@ -44,4 +50,12 @@ const std::string &Stock::getName() const {
 
 const std::string &Stock::getShortname() const {
     return shortname;
+}
+
+void Stock::printToFile(std::ofstream &file) {
+    file << this->name << "," << this->shortname << "," << this->WKN << std::endl;
+    for(int i = 0; i < 30; i++) {
+        this->entries.at(i).printToFile(file);
+        if(i < 29) file << std::endl;
+    }
 }

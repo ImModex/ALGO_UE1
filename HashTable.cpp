@@ -16,12 +16,35 @@ Stock *HashTable::search(std::string key) {
     return (element->getName() == key || element->getShortname() == key) ? element : nullptr;
 }
 
-void HashTable::save() {
+void HashTable::save(std::string filename) {
+    std::ofstream file(filename);
+    if(!file.is_open()) return;
 
+    for(int i = 0; i < TABLE_LENGTH-1; i++) {
+        if(this->table[i].getName().empty()) continue;
+        file << i << std::endl;
+        this->table[i].printToFile(file);
+    }
+    file.close();
 }
 
-void HashTable::load() {
+void HashTable::load(std::string filename) {
+    std::ifstream file(filename);
+    if(!file.is_open()) return;
 
+    while(!file.eof()) {
+        int index;
+        file >> index;
+
+        std::string stockHeader;
+        file >> stockHeader;
+        file.ignore();
+
+        std::vector<std::string> headerData = Utility::split(stockHeader, ",");
+
+        this->table[index] = Stock(headerData.at(0), headerData.at(1), headerData.at(2));
+        this->table[index].fromFile(file);
+    }
 }
 
 int HashTable::hash(std::string key) {
