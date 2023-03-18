@@ -39,8 +39,6 @@ void HashTable::load(std::string filename) {
         if(buf.empty()) return;
         index = std::stoi(buf);
 
-        std::cout << index << std::endl;
-
         if(file.bad()) return;
 
         std::string stockHeader;
