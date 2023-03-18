@@ -32,9 +32,16 @@ void HashTable::load(std::string filename) {
     std::ifstream file(filename);
     if(!file.is_open()) return;
 
+    std::string buf;
     while(!file.eof()) {
         int index;
-        file >> index;
+        std::getline(file, buf);
+        if(buf.empty()) return;
+        index = std::stoi(buf);
+
+        std::cout << index << std::endl;
+
+        if(file.bad()) return;
 
         std::string stockHeader;
         file >> stockHeader;

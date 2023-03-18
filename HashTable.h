@@ -4,6 +4,7 @@
 #define TABLE_LENGTH 23
 
 #include "Stock.h"
+#include <limits>
 
 class HashTable {
 public:

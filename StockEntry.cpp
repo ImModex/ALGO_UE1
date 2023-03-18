@@ -20,5 +20,5 @@ std::ostream &operator<<(std::ostream &os, const StockEntry &entry) {
 }
 
 void StockEntry::printToFile(std::ofstream &file) {
-    file << this->date << "," << this->open << "," << this->high << "," << this->low << "," << this->close << "," << this->adjClose << "," << this->volume;
+    file << this->date << "," << this->open << "," << this->high << "," << this->low << "," << this->close << "," << this->adjClose << "," << this->volume << std::endl;
 }

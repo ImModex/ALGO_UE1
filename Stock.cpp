@@ -56,6 +56,5 @@ void Stock::printToFile(std::ofstream &file) {
     file << this->name << "," << this->shortname << "," << this->WKN << std::endl;
     for(int i = 0; i < 30; i++) {
         this->entries.at(i).printToFile(file);
-        if(i < 29) file << std::endl;
     }
 }
