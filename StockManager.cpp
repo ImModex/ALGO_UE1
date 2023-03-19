@@ -55,6 +55,22 @@ void StockManager::add(std::string name, std::string shortname, std::string WKN)
         return;
     }
 
+    Stock *nameFind = this->get(name), *shortFind = this->get(shortname);
+    if(nameFind != nullptr && shortFind != nullptr) {
+        std::cout << "Stock with name " << name << " and short name " << shortname << " already exists!" << std::endl;
+        return;
+    }
+
+    if(nameFind != nullptr) {
+        std::cout << "Stock with name " << name << " already exists." << std::endl;
+        return;
+    }
+
+    if(shortFind != nullptr) {
+        std::cout << "Stock with short name " << shortname << " already exists." << std::endl;
+        return;
+    }
+
     this->importBuffer->setData(name, shortname, WKN);
     this->nameTable.add(*this->importBuffer, name);
     this->shortTable.add(*this->importBuffer, shortname);

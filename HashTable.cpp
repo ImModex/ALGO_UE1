@@ -12,7 +12,7 @@ void HashTable::add(Stock &stock, std::string key) {
 
     while(!this->table[newIndex].getName().empty() || !this->table[newIndex].isActive()) {
         newIndex = Utility::quadraticProbing(jumpCount++, index);
-        if(newIndex == -1) break;
+        if(newIndex == -1) return;
     }
     this->table[newIndex] = stock;
 }
@@ -26,7 +26,7 @@ Stock *HashTable::search(std::string key) {
 
     while(this->table[newIndex].getName() != key && this->table[newIndex].getShortname() != key) {
         newIndex = Utility::quadraticProbing(jumpCount++, index);
-        if(newIndex == -1) break;
+        if(newIndex == -1) return nullptr;
     }
 
     Stock* element = &this->table[newIndex];
