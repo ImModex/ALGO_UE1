@@ -105,7 +105,8 @@ void StockManager::plot() {
 
 void StockManager::plot(std::string key) {
     if(this->get(key) != nullptr) {
-        std::tuple<float, float> stockRange = this->get(key)->GetHighLow();
+        Stock* stock = this->get(key);
+        std::tuple<float, float> stockRange = stock->GetHighLow();
         float max = std::get<0>(stockRange);
         float min = std::get<1>(stockRange);
         float stepSize = (max - min) / Utility::PLOT_HEIGHT;
@@ -113,12 +114,10 @@ void StockManager::plot(std::string key) {
 
         for(int i=0; i < Utility::PLOT_HEIGHT; ++i) {
             for(int j=0; j < Utility::PLOT_WIDTH*2; j+=2) {
-                int yValue = roundf((this->get(key)->getClosingAt(j/2) - min) / stepSize);
+                int yValue = roundf((stock->getClosingAt(j/2) - min) / stepSize);
                 if(!yValue) {
                     yValue = 1;
                 }
-
-                //std::cout << "yValue: " << yValue << std::endl;
                 if(i >= Utility::PLOT_HEIGHT-yValue) {
                     graph[i][j] = char(158);
                     graph[i][j+1] = char(158);
@@ -126,26 +125,27 @@ void StockManager::plot(std::string key) {
                     graph[i][j] = ' ';
                     graph[i][j+1] = ' ';
                 }
-
-                /*if(i == Utility::PLOT_HEIGHT-yValue) {
-                    graph[i][j] = 'x';
-                } else {
-                    graph[i][j] = ' ';
-                }*/
             }
         }
-
-        printGraph(graph);
+        std::vector<std::string> data = stock->getData();
+        printGraph(graph, data, stockRange);
 
     } else {
         std::cout << "No Stock found for Key '" << key << "'!" << std::endl;
     }
 }
 
-void StockManager::printGraph(char graph[Utility::PLOT_HEIGHT][Utility::PLOT_WIDTH*2]) {
-    std::cout << std::endl << std::endl;
-
+void StockManager::printGraph(char graph[Utility::PLOT_HEIGHT][Utility::PLOT_WIDTH*2], std::vector<std::string> data, std::tuple<float, float> stockRange) {
+    std::cout << std::endl << "Name: " << data.at(0) << " | Short name: " << data.at(1) << " | ISIN: " << data.at(2) << std::endl << std::endl;
+    std::cout << "Value(EUR)" << std::endl;
     for(int i=0; i <= Utility::PLOT_HEIGHT+1; ++i) {
+        if(i == 1) {
+            std::cout << std::get<0>(stockRange) << "-";
+        } else if(i == Utility::PLOT_HEIGHT) {
+            std::cout << std::get<1>(stockRange) << "-";
+        } else {
+            std::cout << Utility::MARGIN;
+        }
         for(int j=0; j <= (Utility::PLOT_WIDTH+1)*2; ++j) {
             if(j == 0 && i == 0) {
                 std::cout << Utility::Y_AXIS_ARROW;
@@ -165,7 +165,28 @@ void StockManager::printGraph(char graph[Utility::PLOT_HEIGHT][Utility::PLOT_WID
                 std::cout << graph[i-1][j-1];
             }
         }
-        std::cout << std::endl;
+        if(i != Utility::PLOT_HEIGHT+1) {
+            std::cout << std::endl;
+        }
+    }
+    std::cout << "Time(Days)" << std::endl << Utility::MARGIN;
+    for(int i=0; i <= Utility::PLOT_WIDTH*2; i++) {
+        if(i == 1) {
+            std::cout << char(39);
+        } else if(i == Utility::PLOT_WIDTH*2) {
+            std::cout << char(39) << std::endl << Utility::MARGIN;
+        } else {
+            std::cout << " ";
+        }
+    }
+    for(int i=0; i <= Utility::PLOT_WIDTH*2; i++) {
+        if(i == 1) {
+            std::cout << "1";
+        } else if(i == Utility::PLOT_WIDTH*2) {
+            std::cout << "30" << std::endl << std::endl;
+        } else {
+            std::cout << " ";
+        }
     }
 }
 
