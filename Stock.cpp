@@ -7,6 +7,7 @@ Stock::Stock(std::string name, std::string shortname, std::string WKN) {
     this->name = std::move(name);
     this->shortname = std::move(shortname);
     this->WKN = std::move(WKN);
+    this->active = true;
 }
 
 void Stock::fromFile(std::ifstream &fs) {
@@ -86,4 +87,16 @@ const std::vector<std::string> Stock::getData() {
     data.push_back(this->shortname);
     data.push_back(this->WKN);
     return data;
+}
+
+void Stock::del() {
+    this->active = false;
+}
+
+bool Stock::isActive() const {
+    return this->active;
+}
+
+void Stock::printLastEntry() {
+    std::cout << this->entries.at(this->entries.size()-1) << std::endl;
 }

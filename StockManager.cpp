@@ -33,7 +33,7 @@ void StockManager::import(std::ifstream &file, int linesToSkip) {
     }
 
     this->importBuffer = new Stock("", "", "");
-    this->importBuffer->fromFile(file);
+    this->importBuffer->fromFile(file, 30);
 }
 
 void StockManager::add() {
@@ -63,8 +63,31 @@ void StockManager::add(std::string name, std::string shortname, std::string WKN)
     this->importBuffer = nullptr;
 }
 
-Stock* StockManager::get() {
-    return this->get(Utility::getInput("Please enter the name or short name of the stock you want to find."));
+void StockManager::del() {
+    this->del(Utility::getInput("Please enter the name or short name of the stock that you want to delete."));
+}
+
+void StockManager::del(std::string key) {
+    Stock* elem = this->get(key);
+    if(elem == nullptr) {
+        std::cout << "Could not delete stock with key " << key << " because it doesn't exist!" << std::endl;
+        return;
+    }
+    this->get(elem->getShortname())->del();
+    this->get(elem->getName())->del();
+    std::cout << "The stock with the key " << key << " was deleted successfully." << std::endl;
+}
+
+void StockManager::get() {
+    std::string key = Utility::getInput("Please enter the name or short name of the stock you want to find.");
+    Stock* stock = this->get(key);
+
+    if(stock == nullptr) {
+        std::cout << "Stock with the key " << key << " could not be found." << std::endl;
+        return;
+    }
+
+    stock->printLastEntry();
 }
 
 Stock* StockManager::get(std::string key) {
@@ -76,7 +99,7 @@ Stock* StockManager::get(std::string key) {
     if(elem == nullptr)
         elem = this->nameTable.search(key);
 
-    return elem;
+    return (elem == nullptr || !elem->isActive()) ? nullptr : elem;
 }
 
 void StockManager::save() {
@@ -85,13 +108,17 @@ void StockManager::save() {
 
 void StockManager::save(std::string filename) {
     std::ofstream file(filename);
-    if(!file.is_open()) return;
+    if(!file.is_open()) {
+        std::cout << "Could not save to file " << filename << "." << std::endl;
+        return;
+    }
 
-    for(int i = 0; i < TABLE_LENGTH-1; i++) {
-        if(this->nameTable.isEmpty(i)) continue;
+    for(int i = 0; i < Utility::TABLE_LENGTH-1; i++) {
+        if(this->nameTable.isEmpty(i) || !this->nameTable.getStockAt(i)->isActive()) continue;
         file << i << "," << this->nameTable.hash(this->nameTable.getStockAt(i)->getShortname()) << std::endl;
         this->nameTable.getStockAt(i)->printToFile(file);
     }
+    std::cout << "File " << filename << " saved successfully!" << std::endl;
     file.close();
 }
 
@@ -192,12 +219,15 @@ void StockManager::printGraph(char graph[Utility::PLOT_HEIGHT][Utility::PLOT_WID
 
 void StockManager::load(std::string filename) {
     std::ifstream file(filename);
-    if(!file.is_open()) return;
+    if(!file.is_open()) {
+        std::cout << "Could not load file " << filename << "." << std::endl;
+        return;
+    }
 
     while(!file.eof() && file.good()) {
         std::string buf;
         std::getline(file, buf);
-        if(buf.empty()) return;
+        if(buf.empty()) break;
 
         std::vector<std::string> indices = Utility::split(buf, ",");
 
@@ -210,6 +240,8 @@ void StockManager::load(std::string filename) {
         this->import(file, 0);
         this->add(headerData.at(0), headerData.at(1), headerData.at(2));
     }
+
+    std::cout << "File " << filename << " has been loaded successfully." << std::endl;
 }
 
 bool StockManager::input() {
@@ -223,7 +255,7 @@ bool StockManager::input() {
                 this->add();
                 break;
             case 2:
-              //  this->del();
+                this->del();
                 break;
             case 3:
                 this->import();
@@ -248,7 +280,8 @@ bool StockManager::input() {
 }
 
 void StockManager::printMenu() {
-    std::cout << "Welcome to the Stock Manager, following commands are available:" << std::endl
+    std::cout << std::endl
+              << "Welcome to the Stock Manager, following commands are available:" << std::endl
               << "(1) - ADD - Adds imported stock to hashtable" << std::endl
               << "(2) - DEL - Deletes stock from hashtable" << std::endl
               << "(3) - IMPORT - Imports stock data from .csv file" << std::endl

@@ -16,7 +16,10 @@ public:
     void add();
     void add(std::string name, std::string shortname, std::string WKN);
 
-    Stock* get();
+    void del();
+    void del(std::string key);
+
+    void get();
     Stock* get(std::string key);
 
     void import();

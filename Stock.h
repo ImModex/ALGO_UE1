@@ -29,7 +29,13 @@ public:
     std::tuple<float, float> GetHighLow();
     float getClosingAt(int index);
 
+    void printLastEntry();
+
+    void del();
+    bool isActive() const;
+
 private:
+    bool active;
     std::string name;
     std::string shortname;
     std::string WKN;
