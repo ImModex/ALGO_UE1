@@ -2,54 +2,35 @@
 #include "HashTable.h"
 
 HashTable::HashTable() {
-    this->table = new Stock[TABLE_LENGTH];
+    this->table = new Stock[Utility::TABLE_LENGTH];
 }
 
 void HashTable::add(Stock &stock, std::string key) {
     int index = this->hash(key);
-    this->table[index] = stock;
-    // TODO: Collision handling
+    int jumpCount = 1;
+    int newIndex = index;
+
+    while(!this->table[newIndex].getName().empty() || !this->table[newIndex].isActive()) {
+        newIndex = Utility::quadraticProbing(jumpCount++, index);
+        if(newIndex == -1) break;
+    }
+    this->table[newIndex] = stock;
 }
 
 Stock *HashTable::search(std::string key) {
-    Stock* element = &this->table[this->hash(key)];
+    int index = this->hash(key);
+    int jumpCount = 1;
+    int newIndex = index;
+
+    if(this->table[newIndex].getName().empty()) return nullptr;
+
+    while(this->table[newIndex].getName() != key && this->table[newIndex].getShortname() != key) {
+        newIndex = Utility::quadraticProbing(jumpCount++, index);
+        if(newIndex == -1) break;
+    }
+
+    Stock* element = &this->table[newIndex];
     return (element->getName() == key || element->getShortname() == key) ? element : nullptr;
-}
-
-void HashTable::save(std::string filename) {
-    std::ofstream file(filename);
-    if(!file.is_open()) return;
-
-    for(int i = 0; i < TABLE_LENGTH-1; i++) {
-        if(this->table[i].getName().empty()) continue;
-        file << i << std::endl;
-        this->table[i].printToFile(file);
-    }
-    file.close();
-}
-
-void HashTable::load(std::string filename) {
-    std::ifstream file(filename);
-    if(!file.is_open()) return;
-
-    std::string buf;
-    while(!file.eof()) {
-        int index;
-        std::getline(file, buf);
-        if(buf.empty()) return;
-        index = std::stoi(buf);
-
-        if(file.bad()) return;
-
-        std::string stockHeader;
-        file >> stockHeader;
-        file.ignore();
-
-        std::vector<std::string> headerData = Utility::split(stockHeader, ",");
-
-        this->table[index] = Stock(headerData.at(0), headerData.at(1), headerData.at(2));
-        this->table[index].fromFile(file);
-    }
 }
 
 int HashTable::hash(std::string key) {
@@ -59,7 +40,7 @@ int HashTable::hash(std::string key) {
        hash = ((hash << 5) + hash) + item;
     });
 
-    return (hash % (TABLE_LENGTH-1));
+    return (hash % (Utility::TABLE_LENGTH-1));
 }
 
 HashTable::~HashTable() {

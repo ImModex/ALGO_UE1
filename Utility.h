@@ -5,6 +5,7 @@
 #include <string>
 #include <cstdarg>
 #include <iostream>
+#include <cmath>
 
 namespace Utility {
     std::vector<std::string> split(std::string string, std::string delim);
@@ -20,8 +21,10 @@ namespace Utility {
     const char BOTTOMLEFTCORNER = char(192);
 
     const std::string MARGIN = "       ";
-    
+
+    const int TABLE_LENGTH = 211;
     std::string getInput(std::string prompt);
+    int quadraticProbing(int i, int index);
 };
 
 

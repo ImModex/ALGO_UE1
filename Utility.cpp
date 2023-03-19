@@ -25,3 +25,14 @@ std::string Utility::getInput(std::string prompt) {
 
     return input;
 }
+
+int Utility::quadraticProbing(int i, int index) {
+    if(i > TABLE_LENGTH) return -1;
+    int in = std::floor(i / 2);
+    int jump = (int) std::pow(in, 2);
+    jump = (i % 2 == 0) ? jump : -jump;
+    index += jump;
+    index = std::abs(index);
+    index %= TABLE_LENGTH;
+    return index;
+}
