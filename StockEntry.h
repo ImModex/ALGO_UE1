@@ -15,6 +15,11 @@ public:
     void printToFile(std::ofstream &file);
     friend std::ostream &operator<<(std::ostream &os, const StockEntry &entry);
 
+    float getHigh() const;
+    float getLow() const;
+
+    float getClose() const;
+
 private:
     std::string date;
     float open;

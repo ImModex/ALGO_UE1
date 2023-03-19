@@ -58,3 +58,24 @@ void Stock::printToFile(std::ofstream &file) {
         this->entries.at(i).printToFile(file);
     }
 }
+
+std::tuple<float, float> Stock::GetHighLow() {
+    // Get max high and min low from hashtable
+    float high = this->entries.at(0).getClose();
+    float low = this->entries.at(0).getClose();
+
+    for(int i=0; i < 30; ++i) {
+        if(this->entries.at(i).getClose() > high) {
+            high = this->entries.at(i).getClose();
+        }
+        if(this->entries.at(i).getClose() < low) {
+            low = this->entries.at(i).getClose();
+        }
+    }
+
+    return std::make_tuple(high, low);
+}
+
+float Stock::getClosingAt(int index) {
+    return this->entries[index].getClose();
+}

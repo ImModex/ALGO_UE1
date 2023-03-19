@@ -5,6 +5,8 @@
 #include "HashTable.h"
 #include <string>
 #include <limits>
+#include "console.h"
+#include <cmath>
 
 class StockManager {
 public:
@@ -24,6 +26,8 @@ public:
     void save(std::string filename);
 
     void load();
+    void plot(std::string key);
+    
     void load(std::string filename);
     bool input();
 private:
@@ -33,6 +37,8 @@ private:
     HashTable nameTable;
     HashTable shortTable;
     Stock *importBuffer;
+    
+    void printGraph(char graph[Utility::PLOT_HEIGHT][Utility::PLOT_WIDTH*2]);
 };
 
 
