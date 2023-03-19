@@ -48,3 +48,69 @@ void StockManager::load() {
     this->nameTable.load("nametable.dat");
     this->shortTable.load("shorttable.dat");
 }
+
+void StockManager::plot(std::string key) {
+    if(this->get(key) != nullptr) {
+        std::tuple<float, float> stockRange = this->get(key)->GetHighLow();
+        float max = std::get<0>(stockRange);
+        float min = std::get<1>(stockRange);
+        float stepSize = (max - min) / Utility::PLOT_HEIGHT;
+        char graph[Utility::PLOT_HEIGHT][Utility::PLOT_WIDTH*2];
+
+        for(int i=0; i < Utility::PLOT_HEIGHT; ++i) {
+            for(int j=0; j < Utility::PLOT_WIDTH*2; j+=2) {
+                int yValue = roundf((this->get(key)->getClosingAt(j/2) - min) / stepSize);
+                if(!yValue) {
+                    yValue = 1;
+                }
+
+                //std::cout << "yValue: " << yValue << std::endl;
+                if(i >= Utility::PLOT_HEIGHT-yValue) {
+                    graph[i][j] = char(158);
+                    graph[i][j+1] = char(158);
+                } else {
+                    graph[i][j] = ' ';
+                    graph[i][j+1] = ' ';
+                }
+
+                /*if(i == Utility::PLOT_HEIGHT-yValue) {
+                    graph[i][j] = 'x';
+                } else {
+                    graph[i][j] = ' ';
+                }*/
+            }
+        }
+
+        printGraph(graph);
+
+    } else {
+        std::cout << "No Stock found for Key '" << key << "'!" << std::endl;
+    }
+}
+
+void StockManager::printGraph(char graph[Utility::PLOT_HEIGHT][Utility::PLOT_WIDTH*2]) {
+    std::cout << std::endl << std::endl;
+
+    for(int i=0; i <= Utility::PLOT_HEIGHT+1; ++i) {
+        for(int j=0; j <= (Utility::PLOT_WIDTH+1)*2; ++j) {
+            if(j == 0 && i == 0) {
+                std::cout << Utility::Y_AXIS_ARROW;
+            } else if(j == 0 && i <= Utility::PLOT_HEIGHT) {
+                std::cout << Utility::Y_AXIS_LINE;
+            }
+            if(i == Utility::PLOT_HEIGHT+1) {
+                if(j == 0) {
+                    std::cout << Utility::BOTTOMLEFTCORNER;
+                } else if(j == (Utility::PLOT_WIDTH+1)*2) {
+                    std::cout << Utility::X_AXIS_ARROW;
+                } else {
+                    std::cout << Utility::X_AXIS_LINE;
+                }
+            }
+            if(i > 0 && i <= Utility::PLOT_HEIGHT && j > 0 && j <= (Utility::PLOT_WIDTH)*2) {
+                std::cout << graph[i-1][j-1];
+            }
+        }
+        std::cout << std::endl;
+    }
+}

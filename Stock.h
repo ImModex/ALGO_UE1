@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <utility>
 #include <ostream>
+#include <tuple>
 
 class Stock {
 public:
@@ -23,6 +24,9 @@ public:
 
     void printToFile(std::ofstream &file);
     friend std::ostream &operator<<(std::ostream &os, const Stock &stock);
+
+    std::tuple<float, float> GetHighLow();
+    float getClosingAt(int index);
 
 private:
     std::string name;
