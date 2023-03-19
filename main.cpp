@@ -13,10 +13,10 @@ int main() {
     manager.add("Bitcoin-Euro", "BTC_EUR", "654321");*/
 
 
-    manager.load();
+    //manager.load();
     //std::cout << *manager.get("Microsoft") << std::endl;
     //std::cout << *manager.get("BTC") << std::endl;
-    manager.plot("MSFT");
+    //manager.plot("MSFT");
     
    // manager.load();
    // std::cout << *manager.get("Microsoft") << std::endl;

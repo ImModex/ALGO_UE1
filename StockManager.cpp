@@ -99,6 +99,10 @@ void StockManager::load() {
     this->load(Utility::getInput("Please enter the name of the file that you want to load."));
 }
 
+void StockManager::plot() {
+    this->plot(Utility::getInput("Please enter the name of the stock that you want to plot."));
+}
+
 void StockManager::plot(std::string key) {
     if(this->get(key) != nullptr) {
         std::tuple<float, float> stockRange = this->get(key)->GetHighLow();
@@ -207,7 +211,7 @@ bool StockManager::input() {
                 this->get();
                 break;
             case 5:
-                //this->plot();
+                this->plot();
                 break;
             case 6:
                 this->save();

@@ -26,6 +26,8 @@ public:
     void save(std::string filename);
 
     void load();
+
+    void plot();
     void plot(std::string key);
     
     void load(std::string filename);
