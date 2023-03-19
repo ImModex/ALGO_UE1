@@ -79,3 +79,11 @@ std::tuple<float, float> Stock::GetHighLow() {
 float Stock::getClosingAt(int index) {
     return this->entries[index].getClose();
 }
+
+const std::vector<std::string> Stock::getData() {
+    std::vector<std::string> data;
+    data.push_back(this->name);
+    data.push_back(this->shortname);
+    data.push_back(this->WKN);
+    return data;
+}

@@ -17,6 +17,7 @@ public:
 
     const std::string &getName() const;
     const std::string &getShortname() const;
+    const std::vector<std::string> getData();
 
     void setData(std::string name, std::string shortname, std::string WKN);
     void fromFile(std::ifstream &fs);

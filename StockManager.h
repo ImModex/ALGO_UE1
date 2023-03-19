@@ -40,7 +40,7 @@ private:
     HashTable shortTable;
     Stock *importBuffer;
     
-    void printGraph(char graph[Utility::PLOT_HEIGHT][Utility::PLOT_WIDTH*2]);
+    void printGraph(char graph[Utility::PLOT_HEIGHT][Utility::PLOT_WIDTH*2], std::vector<std::string> data, std::tuple<float, float> stockRange);
 };
 
 

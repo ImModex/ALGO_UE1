@@ -19,7 +19,7 @@ namespace Utility {
 
     const char BOTTOMLEFTCORNER = char(192);
 
-    const int margin = 10;
+    const std::string MARGIN = "       ";
     
     std::string getInput(std::string prompt);
 };
