@@ -65,3 +65,11 @@ int HashTable::hash(std::string key) {
 HashTable::~HashTable() {
     delete[] this->table;
 }
+
+bool HashTable::isEmpty(int index) {
+    return this->table[index].getName().empty();
+}
+
+Stock *HashTable::getStockAt(int index) {
+    return &this->table[index];
+}

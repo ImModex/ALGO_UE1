@@ -17,8 +17,10 @@ int main() {
     //std::cout << *manager.get("Microsoft") << std::endl;
     //std::cout << *manager.get("BTC") << std::endl;
     manager.plot("MSFT");
-    int x;
-    std::cin >> x;
+    
+   // manager.load();
+   // std::cout << *manager.get("Microsoft") << std::endl;
+   // std::cout << *manager.get("BTC") << std::endl;
 
    //manager.save();
     return 0;

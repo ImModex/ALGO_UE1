@@ -10,7 +10,7 @@ Stock::Stock(std::string name, std::string shortname, std::string WKN) {
 }
 
 void Stock::fromFile(std::ifstream &fs) {
-    fromFile(fs, 30);
+    fromFile(fs, 100000);
 }
 
 void Stock::fromFile(std::ifstream &fs, int maxLines) {
@@ -24,7 +24,7 @@ void Stock::fromFile(std::ifstream &fs, int maxLines) {
     }
     std::reverse(lines.begin(), lines.end());
 
-    for(int i = 0; i < maxLines; i++) {
+    for(int i = 0; i < 30; i++) {
         this->entries.emplace_back(StockEntry(lines.at(i)));
     }
     std::reverse(this->entries.begin(), this->entries.end());
