@@ -169,26 +169,37 @@ void StockManager::plot(std::string key) {
     if (this->get(key) != nullptr) {
         Stock *stock = this->get(key);
         std::tuple<float, float> stockRange = stock->GetHighLow();
-        float max = std::get<0>(stockRange);
-        float min = std::get<1>(stockRange);
+
+        // Get min and max closing value from current Stock and round it to 2 decimals
+        float max = round(std::get<0>(stockRange) * 100.0) / 100.0;
+        float min = round(std::get<1>(stockRange) * 100.0) / 100.0;
+        // Get step Size
         float stepSize = (max - min) / Utility::PLOT_HEIGHT;
+        // Create char array for plot
         char graph[Utility::PLOT_HEIGHT][Utility::PLOT_WIDTH * 2];
 
         for (int i = 0; i < Utility::PLOT_HEIGHT; ++i) {
             for (int j = 0; j < Utility::PLOT_WIDTH * 2; j += 2) {
+                // Calculate yValue for current time index
                 int yValue = roundf((stock->getClosingAt(j / 2) - min) / stepSize);
+                // If current closing value matches the minimum closing value --> yValue would be 0 (x-Axis)
+                // --> Change value to 1
                 if (!yValue) {
                     yValue = 1;
                 }
+                // If
                 if (i >= Utility::PLOT_HEIGHT - yValue) {
+                    // Set x for current index if PLOT_HEIGHT - yValue matches current y-Position
                     graph[i][j] = char(158);
                     graph[i][j + 1] = char(158);
                 } else {
+                    // Otherwise set space char
                     graph[i][j] = ' ';
                     graph[i][j + 1] = ' ';
                 }
             }
         }
+        // Get stock data (name, shortname, wkn)
         std::vector<std::string> data = stock->getData();
         printGraph(graph, data, stockRange);
 
