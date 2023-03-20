@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Stock.h"
 
+// Init empty stocks with empty data
 Stock::Stock() : Stock("", "", "") {}
 
 Stock::Stock(std::string name, std::string shortname, std::string WKN) {
@@ -10,30 +11,33 @@ Stock::Stock(std::string name, std::string shortname, std::string WKN) {
     this->active = true;
 }
 
-void Stock::fromFile(std::ifstream &fs) {
-    fromFile(fs, 100000);
-}
-
+// Imports entries from a given file
 void Stock::fromFile(std::ifstream &fs, int maxLines) {
-    if(!fs.is_open()) return;
+    // File does not exist / cannot be opened
+    if (!fs.is_open()) return;
 
+    // Import lines from file
     int lineCount = 0;
     std::vector<std::string> lines;
     std::string buf;
-    while(lineCount++ < maxLines && std::getline(fs, buf)) {
+    while (lineCount++ < maxLines && std::getline(fs, buf)) {
         lines.push_back(buf);
     }
+    // Reverse
     std::reverse(lines.begin(), lines.end());
 
-    for(int i = 0; i < 30; i++) {
+    // Take first 30 lines of reversed -> last 30 entries
+    for (int i = 0; i < 30; i++) {
         this->entries.emplace_back(StockEntry(lines.at(i)));
     }
     std::reverse(this->entries.begin(), this->entries.end());
 }
 
+// Print stock header + entries to ostream
 std::ostream &operator<<(std::ostream &os, const Stock &stock) {
-    os << "name: " << stock.name << " shortname: " << stock.shortname << " WKN: " << stock.WKN << " entries: " << std::endl;
-    for(int i = 0; i < 30; i++) {
+    os << "name: " << stock.name << " shortname: " << stock.shortname << " WKN: " << stock.WKN << " entries: "
+       << std::endl;
+    for (int i = 0; i < 30; i++) {
         os << stock.entries.at(i) << std::endl;
     }
     return os;
@@ -53,9 +57,10 @@ const std::string &Stock::getShortname() const {
     return shortname;
 }
 
+// Print stock header + entries to file
 void Stock::printToFile(std::ofstream &file) {
     file << this->name << "," << this->shortname << "," << this->WKN << std::endl;
-    for(int i = 0; i < 30; i++) {
+    for (int i = 0; i < 30; i++) {
         this->entries.at(i).printToFile(file);
     }
 }
@@ -65,11 +70,11 @@ std::tuple<float, float> Stock::GetHighLow() {
     float high = this->entries.at(0).getClose();
     float low = this->entries.at(0).getClose();
 
-    for(int i=0; i < 30; ++i) {
-        if(this->entries.at(i).getClose() > high) {
+    for (int i = 0; i < 30; ++i) {
+        if (this->entries.at(i).getClose() > high) {
             high = this->entries.at(i).getClose();
         }
-        if(this->entries.at(i).getClose() < low) {
+        if (this->entries.at(i).getClose() < low) {
             low = this->entries.at(i).getClose();
         }
     }
@@ -81,7 +86,8 @@ float Stock::getClosingAt(int index) {
     return this->entries[index].getClose();
 }
 
-const std::vector<std::string> Stock::getData() {
+// Returns array containing stock header
+std::vector<std::string> Stock::getData() {
     std::vector<std::string> data;
     data.push_back(this->name);
     data.push_back(this->shortname);
@@ -98,5 +104,5 @@ bool Stock::isActive() const {
 }
 
 void Stock::printLastEntry() {
-    std::cout << this->entries.at(this->entries.size()-1) << std::endl;
+    std::cout << this->entries.at(this->entries.size() - 1) << std::endl;
 }

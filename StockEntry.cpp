@@ -1,6 +1,7 @@
 #include <iostream>
 #include "StockEntry.h"
 
+// Splits input data, converts it and stores it in variables
 StockEntry::StockEntry(std::string line) {
     std::vector<std::string> tokens = Utility::split(line, ",");
 
@@ -19,18 +20,11 @@ std::ostream &operator<<(std::ostream &os, const StockEntry &entry) {
     return os;
 }
 
-float StockEntry::getHigh() const {
-    return high;
-}
-
-float StockEntry::getLow() const {
-    return low;
-}
-
 float StockEntry::getClose() const {
     return close;
 }
 
 void StockEntry::printToFile(std::ofstream &file) {
-    file << this->date << "," << this->open << "," << this->high << "," << this->low << "," << this->close << "," << this->adjClose << "," << this->volume << std::endl;
+    file << this->date << "," << this->open << "," << this->high << "," << this->low << "," << this->close << ","
+         << this->adjClose << "," << this->volume << std::endl;
 }

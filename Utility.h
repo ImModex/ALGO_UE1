@@ -7,7 +7,9 @@
 #include <iostream>
 #include <cmath>
 
+// Utility namespace for global constants and utility functions
 namespace Utility {
+    // Splits a string by a delimiter and returns vector containing all elements
     std::vector<std::string> split(std::string string, std::string delim);
     
     const int PLOT_WIDTH = 30;
@@ -22,8 +24,12 @@ namespace Utility {
 
     const std::string MARGIN = "       ";
 
-    const int TABLE_LENGTH = 211;
+    const int TABLE_LENGTH = 1019;
+
+    // Returns string input to a given prompt
     std::string getInput(std::string prompt);
+
+    // Returns quadratic probing index to given loop count and start index
     int quadraticProbing(int i, int index);
 };
 
