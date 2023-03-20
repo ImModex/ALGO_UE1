@@ -171,8 +171,8 @@ void StockManager::plot(std::string key) {
         std::tuple<float, float> stockRange = stock->GetHighLow();
 
         // Get min and max closing value from current Stock and round it to 2 decimals
-        float max = round(std::get<0>(stockRange) * 100.0) / 100.0;
-        float min = round(std::get<1>(stockRange) * 100.0) / 100.0;
+        float max = std::get<0>(stockRange);
+        float min = std::get<1>(stockRange);
         // Get step Size
         float stepSize = (max - min) / Utility::PLOT_HEIGHT;
         // Create char array for plot

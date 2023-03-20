@@ -79,6 +79,9 @@ std::tuple<float, float> Stock::GetHighLow() {
             low = this->entries.at(i).getClose();
         }
     }
+    // Round values to 2 decimals
+    high = round(high * 100.0) / 100.0;
+    low = round(low * 100.0) / 100.0;
 
     return std::make_tuple(high, low);
 }
