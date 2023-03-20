@@ -15,7 +15,7 @@ void HashTable::add(Stock &stock, std::string key) {
     int jumpCount = 1;
     int newIndex = index;
 
-    while (!this->table[newIndex].getName().empty() || !this->table[newIndex].isActive()) {
+    while (!this->table[newIndex].getName().empty() && this->table[newIndex].isActive()) {
         newIndex = Utility::quadraticProbing(jumpCount++, index);
         if (newIndex == -1) return;
     }
