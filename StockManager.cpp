@@ -346,7 +346,7 @@ bool StockManager::input() {
             case 8:
                 std::cout << "Press a button to exit..." << std::endl;
                 fflush(stdin);
-                getch();
+                getc(stdin);
                 return false;
             default: break;
         }
