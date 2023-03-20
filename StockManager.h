@@ -51,8 +51,8 @@ private:
     void import(std::ifstream &file, int linesToSkip);
 
     // Seperate tables for name and short name
-    HashTable nameTable;
-    HashTable shortTable;
+    HashTable *nameTable;
+    HashTable *shortTable;
     Stock *importBuffer;
     
     void printGraph(char graph[Utility::PLOT_HEIGHT][Utility::PLOT_WIDTH*2], std::vector<std::string> data, std::tuple<float, float> stockRange);

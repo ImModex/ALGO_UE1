@@ -3,10 +3,14 @@
 
 StockManager::StockManager() {
     this->importBuffer = nullptr;
+    this->nameTable = new HashTable();
+    this->shortTable = new HashTable();
 }
 
 StockManager::~StockManager() {
     delete this->importBuffer;
+    delete this->nameTable;
+    delete this->shortTable;
 }
 
 // Infinite loop while program is not exited
@@ -80,8 +84,8 @@ void StockManager::add(std::string name, std::string shortname, std::string WKN)
     }
 
     this->importBuffer->setData(name, shortname, WKN);
-    this->nameTable.add(this->importBuffer, name);
-    this->shortTable.add(this->importBuffer, shortname);
+    this->nameTable->add(this->importBuffer, name);
+    this->shortTable->add(this->importBuffer, shortname);
 
     this->importBuffer = nullptr;
 }
@@ -121,10 +125,10 @@ Stock *StockManager::get(std::string key) {
     Stock *elem = nullptr;
 
     if (key.length() <= 5)
-        elem = this->shortTable.search(key);
+        elem = this->shortTable->search(key);
 
     if (elem == nullptr)
-        elem = this->nameTable.search(key);
+        elem = this->nameTable->search(key);
 
     return (elem == nullptr || !elem->isActive()) ? nullptr : elem;
 }
@@ -142,9 +146,9 @@ void StockManager::save(std::string filename) {
     }
 
     for (int i = 0; i < Utility::TABLE_LENGTH - 1; i++) {
-        if (this->nameTable.isEmpty(i) || !this->nameTable.getStockAt(i)->isActive()) continue;
-        file << i << "," << this->nameTable.hash(this->nameTable.getStockAt(i)->getShortname()) << std::endl;
-        this->nameTable.getStockAt(i)->printToFile(file);
+        if (this->nameTable->isEmpty(i) || !this->nameTable->getStockAt(i)->isActive()) continue;
+        file << i << "," << this->nameTable->hash(this->nameTable->getStockAt(i)->getShortname()) << std::endl;
+        this->nameTable->getStockAt(i)->printToFile(file);
     }
     std::cout << "File " << filename << " saved successfully!" << std::endl;
     file.close();
@@ -251,6 +255,14 @@ void StockManager::printGraph(char graph[Utility::PLOT_HEIGHT][Utility::PLOT_WID
 
 // Loads tables from given filename
 void StockManager::load(std::string filename) {
+
+    // Delete old tables and make new ones
+    delete this->nameTable;
+    delete this->shortTable;
+
+    this->nameTable = new HashTable();
+    this->shortTable = new HashTable();
+
     std::ifstream file(filename);
     if (!file.is_open()) {
         std::cout << "Could not load file " << filename << "." << std::endl;

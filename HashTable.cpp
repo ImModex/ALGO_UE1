@@ -3,6 +3,7 @@
 
 // Initialize table with table length
 HashTable::HashTable() {
+    HashTable::deleted = false;
     this->table = new Stock *[Utility::TABLE_LENGTH];
     for (int i = 0; i < Utility::TABLE_LENGTH; i++) {
         this->table[i] = nullptr;
