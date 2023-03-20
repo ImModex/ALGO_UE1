@@ -6,6 +6,7 @@
 #include <string>
 #include <limits>
  #include <cmath>
+#include <conio.h>
 
 // Class that represents the program, it manages the tables and buffers
 class StockManager {

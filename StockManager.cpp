@@ -336,8 +336,12 @@ bool StockManager::input() {
             case 7:
                 this->load();
                 break;
-            case 8:
+            case 8: {
+                std::cout << "Press a button to exit..." << std::endl;
+                fflush(stdin);
+                getch();
                 return false;
+            }
         }
     } while (input < 1 || input > 8);
     return true;
