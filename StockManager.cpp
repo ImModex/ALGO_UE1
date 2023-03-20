@@ -45,6 +45,7 @@ void StockManager::import(std::ifstream &file, int linesToSkip) {
 
     this->importBuffer = new Stock("", "", "");
     this->importBuffer->fromFile(file, 30);
+    file.close();
 }
 
 // Puts header info into imported stock and stores it in the tables
@@ -88,6 +89,7 @@ void StockManager::add(std::string name, std::string shortname, std::string WKN)
     this->shortTable->add(this->importBuffer, shortname);
 
     this->importBuffer = nullptr;
+    std::cout << "Added stock " << name << " successfully." << std::endl;
 }
 
 void StockManager::del() {
@@ -290,6 +292,7 @@ void StockManager::load(std::string filename) {
         this->add(headerData.at(0), headerData.at(1), headerData.at(2));
     }
 
+    file.close();
     std::cout << "File " << filename << " has been loaded successfully." << std::endl;
 }
 
