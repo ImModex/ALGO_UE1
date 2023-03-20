@@ -22,8 +22,6 @@ namespace Utility {
 
     const char BOTTOMLEFTCORNER = char(192);
 
-    const std::string MARGIN = "       ";
-
     const int TABLE_LENGTH = 1019;
 
     // Returns string input to a given prompt
