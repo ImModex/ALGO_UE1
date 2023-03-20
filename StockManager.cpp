@@ -118,7 +118,6 @@ void StockManager::plot(std::string key) {
                     yValue = 1;
                 }
 
-                //std::cout << "yValue: " << yValue << std::endl;
                 if(i >= Utility::PLOT_HEIGHT-yValue) {
                     graph[i][j] = char(158);
                     graph[i][j+1] = char(158);
@@ -126,12 +125,6 @@ void StockManager::plot(std::string key) {
                     graph[i][j] = ' ';
                     graph[i][j+1] = ' ';
                 }
-
-                /*if(i == Utility::PLOT_HEIGHT-yValue) {
-                    graph[i][j] = 'x';
-                } else {
-                    graph[i][j] = ' ';
-                }*/
             }
         }
 
@@ -171,7 +164,10 @@ void StockManager::printGraph(char graph[Utility::PLOT_HEIGHT][Utility::PLOT_WID
 
 void StockManager::load(std::string filename) {
     std::ifstream file(filename);
-    if(!file.is_open()) return;
+    if(!file.is_open()) {
+        std::cout << "File " << "'" << filename << "'" << " could not be opened/found!" << std::endl;
+        return;
+    }
 
     while(!file.eof() && file.good()) {
         std::string buf;
@@ -227,13 +223,13 @@ bool StockManager::input() {
 }
 
 void StockManager::printMenu() {
-    std::cout << "Welcome to the Stock Manager, following commands are available:" << std::endl
-              << "(1) - ADD - Adds imported stock to hashtable" << std::endl
-              << "(2) - DEL - Deletes stock from hashtable" << std::endl
-              << "(3) - IMPORT - Imports stock data from .csv file" << std::endl
-              << "(4) - SEARCH - Searches hashtables for stock and prints it, if found" << std::endl
-              << "(5) - PLOT - Prints price data of selected stock for past 30 days" << std::endl
-              << "(6) - SAVE - Saves hashtables to a file" << std::endl
-              << "(7) - LOAD - Loads hashtables from a file" << std::endl
-              << "(8) - QUIT - Closes the program" << std::endl;
+    std::cout << std::endl << "Welcome to the Stock Manager, following commands are available:" << std::endl
+                           << "(1) - ADD - Adds imported stock to hashtable" << std::endl
+                           << "(2) - DEL - Deletes stock from hashtable" << std::endl
+                           << "(3) - IMPORT - Imports stock data from .csv file" << std::endl
+                           << "(4) - SEARCH - Searches hashtables for stock and prints it, if found" << std::endl
+                           << "(5) - PLOT - Prints price data of selected stock for past 30 days" << std::endl
+                           << "(6) - SAVE - Saves hashtables to a file" << std::endl
+                           << "(7) - LOAD - Loads hashtables from a file" << std::endl
+                           << "(8) - QUIT - Closes the program" << std::endl;
 }
