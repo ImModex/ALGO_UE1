@@ -80,10 +80,9 @@ void StockManager::add(std::string name, std::string shortname, std::string WKN)
     }
 
     this->importBuffer->setData(name, shortname, WKN);
-    this->nameTable.add(*this->importBuffer, name);
-    this->shortTable.add(*this->importBuffer, shortname);
+    this->nameTable.add(this->importBuffer, name);
+    this->shortTable.add(this->importBuffer, shortname);
 
-    delete this->importBuffer;
     this->importBuffer = nullptr;
 }
 
@@ -101,8 +100,7 @@ void StockManager::del(std::string key) {
         std::cout << "Could not delete stock with key " << key << " because it doesn't exist!" << std::endl;
         return;
     }
-    this->get(elem->getShortname())->del();
-    this->get(elem->getName())->del();
+    elem->del();
     std::cout << "The stock with the key " << key << " was deleted successfully." << std::endl;
 }
 

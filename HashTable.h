@@ -12,7 +12,7 @@ public:
     virtual ~HashTable();
 
     // Add and search elements in the table
-    void add(Stock &stock, std::string key);
+    void add(Stock *stock, std::string key);
     Stock *search(std::string key);
 
     // Hash function to get the index for a value
@@ -21,7 +21,8 @@ public:
     bool isEmpty(int index);
     Stock* getStockAt(int index);
 private:
-    Stock *table;
+    static bool deleted; // to make sure entries are only deleted once
+    Stock **table;
 };
 
 

@@ -15,6 +15,7 @@ class Stock {
 public:
     Stock();
     Stock(std::string name, std::string shortname, std::string WKN);
+    virtual ~Stock() = default;
 
     // Get stock information
     const std::string &getName() const;
@@ -39,8 +40,8 @@ public:
     // Set / Get delete flag of stock
     void del();
     bool isActive() const;
-
 private:
+    bool deleted;
     bool active;
     std::string name;
     std::string shortname;

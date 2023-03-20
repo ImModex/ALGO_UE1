@@ -9,6 +9,7 @@ Stock::Stock(std::string name, std::string shortname, std::string WKN) {
     this->shortname = std::move(shortname);
     this->WKN = std::move(WKN);
     this->active = true;
+    this->deleted = false;
 }
 
 // Imports entries from a given file

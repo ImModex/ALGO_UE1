@@ -5,7 +5,7 @@
 #include "HashTable.h"
 #include <string>
 #include <limits>
-#include <cmath>
+ #include <cmath>
 
 // Class that represents the program, it manages the tables and buffers
 class StockManager {
