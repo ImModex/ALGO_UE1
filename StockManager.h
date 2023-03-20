@@ -5,7 +5,6 @@
 #include "HashTable.h"
 #include <string>
 #include <limits>
-#include "console.h"
 #include <cmath>
 
 // Class that represents the program, it manages the tables and buffers
