@@ -44,11 +44,11 @@ Stock *HashTable::search(std::string key) {
 
 // Hashes a stock name or short name to generate key (index) for the table
 int HashTable::hash(std::string key) {
-    unsigned long hash = 65;
+    unsigned long hash = 67;
     int i=1;
 
     std::for_each(key.begin(), key.end(), [&](const auto &item) {
-        hash = (item + hash*++i) + item;
+        hash = (item*hash*++i) + item;
     });
 
     return (hash % (Utility::TABLE_LENGTH - 1));
