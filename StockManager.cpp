@@ -31,12 +31,12 @@ void StockManager::import(std::string filename) {
         return;
     }
 
-    this->import(file, 1);
+    this->import(file, 1, 100000);
     std::cout << "Sucessfully imported file " << filename << std::endl;
 }
 
 // Import stock from given filestream, skips certain amount of lines
-void StockManager::import(std::ifstream &file, int linesToSkip) {
+void StockManager::import(std::ifstream &file, int linesToSkip, int maxLines) {
 
     for (int i = 0; i < linesToSkip; i++) {
         // Ignore "head" of .csv
@@ -44,8 +44,7 @@ void StockManager::import(std::ifstream &file, int linesToSkip) {
     }
 
     this->importBuffer = new Stock("", "", "");
-    this->importBuffer->fromFile(file, 30);
-    file.close();
+    this->importBuffer->fromFile(file, maxLines);
 }
 
 // Puts header info into imported stock and stores it in the tables
@@ -306,7 +305,7 @@ void StockManager::load(std::string filename) {
         std::vector<std::string> headerData = Utility::split(stockHeader, ",");
 
         // Import stock entries
-        this->import(file, 0);
+        this->import(file, 0, 30);
         this->add(headerData.at(0), headerData.at(1), headerData.at(2));
     }
 

@@ -11,7 +11,7 @@ StockEntry::StockEntry(std::string line) {
     this->low = std::stof(tokens.at(3));
     this->close = std::stof(tokens.at(4));
     this->adjClose = std::stof(tokens.at(5));
-    this->volume = std::stol(tokens.at(6));
+    this->volume = std::strtoll(tokens.at(6).c_str(), nullptr, 10);
 }
 
 std::ostream &operator<<(std::ostream &os, const StockEntry &entry) {

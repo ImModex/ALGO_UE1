@@ -26,7 +26,7 @@ private:
     float high;
     float low;
     float close;
-    long volume;
+    long long int volume;
     float adjClose;
 };
 

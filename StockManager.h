@@ -49,7 +49,7 @@ public:
     void start();
 private:
     void printMenu();
-    void import(std::ifstream &file, int linesToSkip);
+    void import(std::ifstream &file, int linesToSkip, int maxLines);
 
     // Seperate tables for name and short name
     HashTable *nameTable;

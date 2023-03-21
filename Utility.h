@@ -22,7 +22,7 @@ namespace Utility {
 
     const char BOTTOMLEFTCORNER = char(192);
 
-    const int TABLE_LENGTH = 1019;
+    const int TABLE_LENGTH = 1511;
 
     // Returns string input to a given prompt
     std::string getInput(std::string prompt);
